@@ -1,4 +1,4 @@
-nest-bootstraper-registrator-basic
-==================================
+node-nest-bootstraper-basic
+===========================
 
-nodejs basic implementation of the nest-bootstraper-registrator
+nodejs basic implementation of the nest-bootstraper
