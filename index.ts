@@ -9,8 +9,7 @@ class NestBootstraperRegistratorBasic implements Nest.IBootstraperRegistrator {
 
     constructor(public bootstrap: Nest.IBootstraper) {}
 
-    register(step: Nest.StepFunction) {
-
+    reg(step: Nest.StepFunction) : (app: Nest.INest, done: () => any) => void {
         var args: Array < string > ;
         if (step.$serviceInject)
             args = step.$serviceInject;
@@ -32,7 +31,7 @@ class NestBootstraperRegistratorBasic implements Nest.IBootstraperRegistrator {
                 'NestContainerRegistratorBasic was not able to parse function: ' + step.toString();
         }
 
-        this.bootstrap.register(function(app: Nest.INest, done: () => any) {
+        return function(app: Nest.INest, done: () => any) {
 
             var ars: Array < any > = [];
             ars.push(app);
@@ -48,7 +47,19 @@ class NestBootstraperRegistratorBasic implements Nest.IBootstraperRegistrator {
             ars.unshift(app, done);
 
             step.apply(this, args);
-        });
+        };
+    }
+
+    register(step: Array < Nest.StepFunction > );
+    register(step: Nest.StepFunction);
+    register(step: any) {
+
+        if(typeof step === 'array')
+            this.bootstrap.register((<Array < Nest.StepFunction >>step).map((x,i,a) => {
+                    return this.reg(x);
+                }));
+        else
+            this.bootstrap.register(this.reg(step));
     }
 }
 
