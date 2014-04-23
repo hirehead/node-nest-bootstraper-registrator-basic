@@ -1,6 +1,6 @@
 {
   "name": "nest-bootstraper-registrator-basic",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "basic implementation of the nest-bootstraper-registrator",
   "main": "index.js",
   "scripts": {
